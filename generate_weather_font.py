@@ -96,5 +96,5 @@ def generate_font(name, filename_prefix, size, chars, font_path, stretch_h_ratio
 weather_font_path = "Rajdhani-Light.ttf"
 
 # Generate Weather Font (Very small, using Rajdhani-Light)
-# Characters needed: numbers, degree symbol, C, F, %, -, space
-generate_font("WeatherFont", "weather_font", 18, "0123456789°CF%- ", weather_font_path)
+# Characters needed: numbers, degree symbol, C, F, %, -, space, and all uppercase letters for text fields
+generate_font("WeatherFont", "weather_font", 18, "0123456789°CF%- ABCDEFGHIJKLMNOPQRSTUVWXYZ.:", weather_font_path)

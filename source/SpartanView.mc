@@ -4,6 +4,8 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
+import Toybox.Activity;
+import Toybox.UserProfile;
 
 class SpartanFaceView extends WatchUi.WatchFace {
 
@@ -11,8 +13,40 @@ class SpartanFaceView extends WatchUi.WatchFace {
     private var _sevenSegmentFontSmall;
     private var _dateNumberFont;
     private var _dateTextFont;
-
     private var _weatherFont;
+
+    private var _cachedRunDistanceStr = "--";
+    private var _lastCacheTime = 0;
+
+    function getWeeklyRunDistance() as String {
+        var now = Time.now().value();
+        if (now - _lastCacheTime > 300) { // Update every 5 minutes
+            _lastCacheTime = now;
+            _cachedRunDistanceStr = "0.0"; // Default
+            
+            if (Toybox has :UserProfile && Toybox.UserProfile has :getUserActivityHistory) {
+                var history = Toybox.UserProfile.getUserActivityHistory();
+                if (history != null) {
+                    var totalDistanceMeters = 0.0;
+                    // 7 days ago
+                    var weekStart = Time.now().subtract(new Time.Duration(7 * 24 * 60 * 60));
+                    
+                    var entry = history.next();
+                    while (entry != null) {
+                        if (entry.startTime != null && entry.startTime.greaterThan(weekStart)) {
+                            if (entry.type == Activity.SPORT_RUNNING && entry.distance != null) {
+                                totalDistanceMeters += entry.distance;
+                            }
+                        }
+                        entry = history.next();
+                    }
+                    var distanceKm = totalDistanceMeters / 1000.0;
+                    _cachedRunDistanceStr = distanceKm.format("%.1f");
+                }
+            }
+        }
+        return _cachedRunDistanceStr;
+    }
 
     function initialize() {
         WatchFace.initialize();
@@ -139,6 +173,29 @@ class SpartanFaceView extends WatchUi.WatchFace {
             batteryY, 
             _weatherFont, 
             batteryStr, 
+            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
+
+        // --- DRAW WEEKLY RUN DISTANCE ---
+        var runStr = getWeeklyRunDistance();
+        var runY = (dc.getHeight() * 75) / 100;
+        var runX = (dc.getWidth() * 25) / 100;
+        var titleHeight = dc.getFontHeight(_weatherFont);
+        
+        // Draw the title
+        dc.drawText(
+            runX, 
+            runY - (titleHeight / 2), 
+            _weatherFont, 
+            "W.RUN KM:", 
+            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
+        // Draw the value right below it
+        dc.drawText(
+            runX, 
+            runY + (titleHeight / 2), 
+            _weatherFont, 
+            runStr, 
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
         );
     }
