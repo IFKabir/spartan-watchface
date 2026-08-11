@@ -94,7 +94,13 @@ def generate_font(name, filename_prefix, size, chars, font_path, stretch_h_ratio
     print(f"Generated {name}")
 
 weather_font_path = "Rajdhani-Light.ttf"
+bold_font_path = "Rajdhani-Bold.ttf"
 
 # Generate Weather Font (Very small, using Rajdhani-Light)
-# Characters needed: numbers, degree symbol, C, F, %, -, space, and all uppercase letters for text fields
 generate_font("WeatherFont", "weather_font", 18, "0123456789°CF%- ABCDEFGHIJKLMNOPQRSTUVWXYZ.:", weather_font_path)
+
+# Generate Label Font (Smaller, using Rajdhani-Light)
+generate_font("LabelFont", "label_font", 14, "ABCDEFGHIJKLMNOPQRSTUVWXYZ.: ", weather_font_path)
+
+# Generate Value Font (Larger, using Rajdhani-Light instead of Bold)
+generate_font("ValueFont", "value_font", 26, "0123456789.% ", weather_font_path)

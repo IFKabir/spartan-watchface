@@ -6,6 +6,7 @@ import Toybox.Time;
 import Toybox.Time.Gregorian;
 import Toybox.Activity;
 import Toybox.UserProfile;
+import Toybox.SensorHistory;
 
 class SpartanFaceView extends WatchUi.WatchFace {
 
@@ -14,9 +15,27 @@ class SpartanFaceView extends WatchUi.WatchFace {
     private var _dateNumberFont;
     private var _dateTextFont;
     private var _weatherFont;
+    private var _labelFont;
+    private var _valueFont;
+    private var _outlineTimeFont;
+    private var _isAwake = true;
 
     private var _cachedRunDistanceStr = "--";
     private var _lastCacheTime = 0;
+
+    function getBodyBattery() as String {
+        var bbStr = "--";
+        if (Toybox has :SensorHistory && Toybox.SensorHistory has :getBodyBatteryHistory) {
+            var bbIterator = Toybox.SensorHistory.getBodyBatteryHistory({:period => 1});
+            if (bbIterator != null) {
+                var sample = bbIterator.next();
+                if (sample != null && sample.data != null) {
+                    bbStr = sample.data.format("%d");
+                }
+            }
+        }
+        return bbStr;
+    }
 
     function getWeeklyRunDistance() as String {
         var now = Time.now().value();
@@ -58,6 +77,9 @@ class SpartanFaceView extends WatchUi.WatchFace {
         _dateNumberFont = WatchUi.loadResource(Rez.Fonts.DateNumberFont);
         _dateTextFont = WatchUi.loadResource(Rez.Fonts.DateTextFont);
         _weatherFont = WatchUi.loadResource(Rez.Fonts.WeatherFont);
+        _labelFont = WatchUi.loadResource(Rez.Fonts.LabelFont);
+        _valueFont = WatchUi.loadResource(Rez.Fonts.ValueFont);
+        _outlineTimeFont = WatchUi.loadResource(Rez.Fonts.OutlineTimeFont);
     }
 
     function onShow() as Void {
@@ -89,7 +111,26 @@ class SpartanFaceView extends WatchUi.WatchFace {
 
         var centerX = dc.getWidth() / 2;
         var centerY = dc.getHeight() / 2;
-        var dateY = (dc.getHeight() * 25) / 100; // Place date much higher (12% from top)
+
+        // --- AOD MODE DRAWING ---
+        if (!_isAwake) {
+            // Burn-in protection: shift coordinates slightly based on time
+            var shiftX = (minutes % 10) - 5;
+            var shiftY = (minutes / 6) - 5;
+            
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(
+                centerX + shiftX, 
+                centerY + shiftY, 
+                _outlineTimeFont, 
+                timeString, 
+                Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+            );
+            return; // Skip drawing the rest of the UI
+        }
+
+        // --- FULL AWAKE MODE DRAWING ---
+        var dateY = (dc.getHeight() * 25) / 100;
 
         // Get the date information
         var dateInfo = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
@@ -105,7 +146,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
             var temp = weatherData.get("temp");
             var humidity = weatherData.get("humidity");
             if (temp instanceof Float && humidity instanceof Number) {
-                var weatherY = (dc.getHeight() * 10) / 100;
+                var weatherY = (dc.getHeight() * 8) / 100; // Tighter to top margin
                 var weatherStr = temp.format("%.0f") + "C  " + humidity + "%";
                 dc.drawText(
                     centerX, 
@@ -166,7 +207,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
 
         // --- DRAW BATTERY ---
         var battery = System.getSystemStats().battery;
-        var batteryY = (dc.getHeight() * 90) / 100;
+        var batteryY = (dc.getHeight() * 92) / 100; // Tighter to bottom
         var batteryStr = battery.format("%.0f") + "%";
         dc.drawText(
             centerX, 
@@ -180,29 +221,55 @@ class SpartanFaceView extends WatchUi.WatchFace {
         var runStr = getWeeklyRunDistance();
         var runY = (dc.getHeight() * 75) / 100;
         var runX = (dc.getWidth() * 25) / 100;
-        var titleHeight = dc.getFontHeight(_weatherFont);
+        var labelHeight = dc.getFontHeight(_labelFont);
+        var valueHeight = dc.getFontHeight(_valueFont);
         
         // Draw the title
         dc.drawText(
             runX, 
-            runY - (titleHeight / 2), 
-            _weatherFont, 
+            runY - (valueHeight / 2), 
+            _labelFont, 
             "W.RUN KM:", 
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
         );
         // Draw the value right below it
         dc.drawText(
             runX, 
-            runY + (titleHeight / 2), 
-            _weatherFont, 
+            runY + (labelHeight / 2), 
+            _valueFont, 
             runStr, 
+            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
+
+        // --- DRAW BODY BATTERY ---
+        var bbStr = getBodyBattery();
+        var bbX = (dc.getWidth() * 75) / 100;
+        
+        // Draw the title
+        dc.drawText(
+            bbX, 
+            runY - (valueHeight / 2), 
+            _labelFont, 
+            "BODY BTRY:", 
+            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
+        // Draw the value right below it
+        dc.drawText(
+            bbX, 
+            runY + (labelHeight / 2), 
+            _valueFont, 
+            bbStr, 
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
         );
     }
 
     function onEnterSleep() as Void {
+        _isAwake = false;
+        WatchUi.requestUpdate();
     }
 
     function onExitSleep() as Void {
+        _isAwake = true;
+        WatchUi.requestUpdate();
     }
 }

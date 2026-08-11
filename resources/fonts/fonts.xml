@@ -5,5 +5,8 @@
         <font id="DateNumberFont" filename="date_number.fnt" antialias="true" />
         <font id="DateTextFont" filename="date_text.fnt" antialias="true" />
         <font id="WeatherFont" filename="weather_font.fnt" antialias="true" />
+        <font id="LabelFont" filename="label_font.fnt" antialias="true" />
+        <font id="ValueFont" filename="value_font.fnt" antialias="true" />
+        <font id="OutlineTimeFont" filename="seven_segment_outline.fnt" antialias="true" />
     </fonts>
 </resources>
