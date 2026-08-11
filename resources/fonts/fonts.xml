@@ -2,5 +2,7 @@
     <fonts>
         <font id="SevenSegmentFont" filename="seven_segment.fnt" antialias="true" />
         <font id="SevenSegmentFontSmall" filename="seven_segment_small.fnt" antialias="true" />
+        <font id="DateNumberFont" filename="date_number.fnt" antialias="true" />
+        <font id="DateTextFont" filename="date_text.fnt" antialias="true" />
     </fonts>
 </resources>
