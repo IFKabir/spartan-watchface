@@ -1,9 +1,11 @@
 import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
+import Toybox.Background;
+import Toybox.System;
+import Toybox.Time;
 
-//! Main application class for the Spartan watch face.
-//! Entry point defined in manifest.xml.
+(:background)
 class SpartanApp extends Application.AppBase {
 
     function initialize() {
@@ -11,20 +13,33 @@ class SpartanApp extends Application.AppBase {
     }
 
     function onStart(state as Dictionary?) as Void {
+        // Register for background temporal events (every 5 minutes)
+        if (System has :ServiceDelegate) {
+            Background.registerForTemporalEvent(new Time.Duration(5 * 60));
+        }
     }
 
     function onStop(state as Dictionary?) as Void {
     }
 
-    //! Return the initial (and only) view — the watch face.
     function getInitialView() as [Views] or [Views, InputDelegates] {
         return [ new SpartanFaceView() ];
     }
 
-    //! Called when the user changes settings in Garmin Connect Mobile.
-    //! Triggers a UI refresh to apply new hand color, format, etc.
     function onSettingsChanged() as Void {
         WatchUi.requestUpdate();
+    }
+
+    function getServiceDelegate() {
+        return [new SpartanBackground()];
+    }
+
+    function onBackgroundData(data) {
+        if (data != null && data instanceof Dictionary) {
+            // Save weather data to storage
+            Application.Storage.setValue("WeatherData", data);
+            WatchUi.requestUpdate();
+        }
     }
 }
 

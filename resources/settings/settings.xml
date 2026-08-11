@@ -5,4 +5,8 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.OpenWeatherApiKey" title="@Strings.OpenWeatherApiKeyTitle">
+        <settingConfig type="alphaNumeric" />
+    </setting>
+
 </settings>

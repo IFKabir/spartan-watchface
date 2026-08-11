@@ -4,5 +4,6 @@
     <string id="AppName">Spartan</string>
 
     <string id="MilitaryFormatTitle">24-Hour Format</string>
+    <string id="OpenWeatherApiKeyTitle">OpenWeather API Key</string>
 
 </strings>

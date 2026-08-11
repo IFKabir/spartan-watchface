@@ -12,6 +12,8 @@ class SpartanFaceView extends WatchUi.WatchFace {
     private var _dateNumberFont;
     private var _dateTextFont;
 
+    private var _weatherFont;
+
     function initialize() {
         WatchFace.initialize();
     }
@@ -21,6 +23,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
         _sevenSegmentFontSmall = WatchUi.loadResource(Rez.Fonts.SevenSegmentFontSmall);
         _dateNumberFont = WatchUi.loadResource(Rez.Fonts.DateNumberFont);
         _dateTextFont = WatchUi.loadResource(Rez.Fonts.DateTextFont);
+        _weatherFont = WatchUi.loadResource(Rez.Fonts.WeatherFont);
     }
 
     function onShow() as Void {
@@ -61,6 +64,24 @@ class SpartanFaceView extends WatchUi.WatchFace {
         var dateStr = dateInfo.day.format("%02d");
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+
+        // --- DRAW WEATHER ---
+        var weatherData = Application.Storage.getValue("WeatherData") as Dictionary?;
+        if (weatherData != null) {
+            var temp = weatherData.get("temp");
+            var humidity = weatherData.get("humidity");
+            if (temp instanceof Float && humidity instanceof Number) {
+                var weatherY = (dc.getHeight() * 10) / 100;
+                var weatherStr = temp.format("%.0f") + "C  " + humidity + "%";
+                dc.drawText(
+                    centerX, 
+                    weatherY, 
+                    _weatherFont, 
+                    weatherStr, 
+                    Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+                );
+            }
+        }
 
         // --- DRAW DATE ---
         // 1. Draw the numeric date perfectly centered
@@ -106,7 +127,6 @@ class SpartanFaceView extends WatchUi.WatchFace {
             centerY, 
             _sevenSegmentFontSmall, // <-- Now using the small version
             timeString, 
-
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
         );
     }
