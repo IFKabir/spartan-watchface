@@ -74,7 +74,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
 
         // Calculate offset based on date width
         var dateWidth = dc.getTextWidthInPixels(dateStr, _dateNumberFont);
-        var offset = (dateWidth / 2) + 8; // 8 pixels of padding between date and text
+        var offset = (dateWidth / 2) + 2; // Move them closer to the date (2 pixels padding)
 
         // 2. Draw the day of week to the left
         dc.drawText(

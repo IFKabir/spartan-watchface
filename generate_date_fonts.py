@@ -83,4 +83,4 @@ def generate_font(name, filename_prefix, size, chars):
 generate_font("DateNumberFont", "date_number", 40, "0123456789 ")
 
 # Generate Date Text Font (Smaller)
-generate_font("DateTextFont", "date_text", 30, "ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
+generate_font("DateTextFont", "date_text", 24, "ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
