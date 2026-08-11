@@ -129,6 +129,18 @@ class SpartanFaceView extends WatchUi.WatchFace {
             timeString, 
             Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
         );
+
+        // --- DRAW BATTERY ---
+        var battery = System.getSystemStats().battery;
+        var batteryY = (dc.getHeight() * 90) / 100;
+        var batteryStr = battery.format("%.0f") + "%";
+        dc.drawText(
+            centerX, 
+            batteryY, 
+            _weatherFont, 
+            batteryStr, 
+            Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+        );
     }
 
     function onEnterSleep() as Void {
