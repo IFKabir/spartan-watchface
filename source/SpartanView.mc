@@ -52,7 +52,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
 
         var centerX = dc.getWidth() / 2;
         var centerY = dc.getHeight() / 2;
-        var dateY = centerY - 50; // Place date 50 pixels above the center time
+        var dateY = dc.getHeight() * 0.25; // Place date at 25% from top
 
         // Get the date information
         var dateInfo = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
