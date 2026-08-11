@@ -1,0 +1,6 @@
+<resources>
+    <fonts>
+        <font id="SevenSegmentFont" filename="seven_segment.fnt" antialias="true" />
+        <font id="SevenSegmentFontSmall" filename="seven_segment_small.fnt" antialias="true" />
+    </fonts>
+</resources>
