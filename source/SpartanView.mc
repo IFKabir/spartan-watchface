@@ -74,12 +74,17 @@ class SpartanFaceView extends WatchUi.WatchFace {
 
         // Calculate offset based on date width
         var dateWidth = dc.getTextWidthInPixels(dateStr, _dateNumberFont);
-        var offset = (dateWidth / 2) + 2; // Move them closer to the date (2 pixels padding)
+        var offset = (dateWidth / 2) + 8; // Move them slightly further from the date (8 pixels padding)
+        
+        // Calculate Y position to align the bottom of the smaller text with the larger date
+        var dateHeight = dc.getFontHeight(_dateNumberFont);
+        var textHeight = dc.getFontHeight(_dateTextFont);
+        var textY = dateY + (dateHeight - textHeight) / 2;
 
         // 2. Draw the day of week to the left
         dc.drawText(
             centerX - offset, 
-            dateY, 
+            textY, 
             _dateTextFont, 
             dayStr, 
             Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
@@ -88,7 +93,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
         // 3. Draw the month to the right
         dc.drawText(
             centerX + offset, 
-            dateY, 
+            textY, 
             _dateTextFont, 
             monthStr, 
             Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
