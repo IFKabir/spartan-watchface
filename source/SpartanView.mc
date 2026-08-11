@@ -79,7 +79,7 @@ class SpartanFaceView extends WatchUi.WatchFace {
         // Calculate Y position to align the bottom of the smaller text with the larger date
         var dateHeight = dc.getFontHeight(_dateNumberFont);
         var textHeight = dc.getFontHeight(_dateTextFont);
-        var textY = dateY + (dateHeight - textHeight) / 2;
+        var textY = dateY + (dateHeight - textHeight) / 2 + 4; // +4 visual baseline correction
 
         // 2. Draw the day of week to the left
         dc.drawText(

@@ -1,15 +1,15 @@
-info face="DateNumberFont" size=40 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
-common lineHeight=44 base=44 scaleW=351 scaleH=48 pages=1 packed=0 alphaChnl=0 redChnl=0 greenChnl=0 blueChnl=0
+info face="DateNumberFont" size=40 bold=0 italic=0 charset="" unicode=1 stretchH=117 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
+common lineHeight=37 base=37 scaleW=351 scaleH=41 pages=1 packed=0 alphaChnl=0 redChnl=0 greenChnl=0 blueChnl=0
 page id=0 file="date_number_0.png"
 chars count=11
-char id=48 x=1 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=49 x=32 y=2 width=9 height=44 xoffset=2 yoffset=2 xadvance=15 page=0 chnl=15
-char id=50 x=43 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=51 x=74 y=2 width=27 height=44 xoffset=2 yoffset=2 xadvance=33 page=0 chnl=15
-char id=52 x=103 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=53 x=134 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=54 x=165 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=55 x=196 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=56 x=227 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
-char id=57 x=258 y=2 width=29 height=44 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=48 x=1 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=49 x=32 y=2 width=8 height=37 xoffset=2 yoffset=2 xadvance=14 page=0 chnl=15
+char id=50 x=42 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=51 x=73 y=2 width=28 height=37 xoffset=2 yoffset=2 xadvance=34 page=0 chnl=15
+char id=52 x=103 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=53 x=134 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=54 x=165 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=55 x=196 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=56 x=227 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
+char id=57 x=258 y=2 width=29 height=37 xoffset=2 yoffset=2 xadvance=35 page=0 chnl=15
 char id=32 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=10 page=0 chnl=15
